@@ -1,11 +1,14 @@
 use crate::Error;
 
+#[derive(Clone, Copy, Debug)]
 pub enum Instruction {
     MoveLeft,
     MoveRight,
     Increment,
     Decrement,
     Output,
+    JumpForwards,
+    JumpBackwards,
 }
 
 impl TryFrom<char> for Instruction {
@@ -18,6 +21,8 @@ impl TryFrom<char> for Instruction {
             '+' => Ok(Instruction::Increment),
             '-' => Ok(Instruction::Decrement),
             '.' => Ok(Instruction::Output),
+            '[' => Ok(Instruction::JumpForwards),
+            ']' => Ok(Instruction::JumpBackwards),
             ch => Err(Error::InvalidInstructionChar(ch)),
         }
     }

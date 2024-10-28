@@ -1,3 +1,7 @@
+const PROGRAM: &str = "++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.";
+
 fn main() {
-    println!("Hello, world!");
+    if let Err(e) = brainfuck::run(PROGRAM) {
+        eprintln!("{}", e);
+    };
 }

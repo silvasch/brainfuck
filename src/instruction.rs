@@ -7,6 +7,7 @@ pub enum Instruction {
     Increment,
     Decrement,
     Output,
+    Input,
     JumpForwards,
     JumpBackwards,
 }
@@ -21,6 +22,7 @@ impl TryFrom<char> for Instruction {
             '+' => Ok(Instruction::Increment),
             '-' => Ok(Instruction::Decrement),
             '.' => Ok(Instruction::Output),
+            ',' => Ok(Instruction::Input),
             '[' => Ok(Instruction::JumpForwards),
             ']' => Ok(Instruction::JumpBackwards),
             ch => Err(Error::InvalidInstructionChar(ch)),

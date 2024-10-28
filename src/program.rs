@@ -15,7 +15,7 @@ impl Program {
 
         for (i, ch) in program
             .chars()
-            .filter(|value| ['<', '>', '+', '-', '.', '[', ']'].contains(value))
+            .filter(|value| ['<', '>', '+', '-', '.', ',', '[', ']'].contains(value))
             .enumerate()
         {
             let instruction = ch.try_into()?;

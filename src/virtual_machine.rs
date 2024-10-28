@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, io::Write};
 
 use crate::{Error, Instruction, Program};
 
@@ -9,6 +9,8 @@ pub struct VirtualMachine {
     data_pointer: u32,
 
     instruction_pointer: u32,
+
+    terminal: console::Term,
 }
 
 impl VirtualMachine {
@@ -20,6 +22,8 @@ impl VirtualMachine {
             data_pointer: 0,
 
             instruction_pointer: 0,
+
+            terminal: console::Term::stdout(),
         }
     }
 
@@ -41,6 +45,7 @@ impl VirtualMachine {
                 Instruction::Increment => self.increment(),
                 Instruction::Decrement => self.decrement(),
                 Instruction::Output => self.output(),
+                Instruction::Input => self.input(),
                 Instruction::JumpForwards => self.jump_forwards(),
                 Instruction::JumpBackwards => self.jump_backwards(),
             }
@@ -75,8 +80,17 @@ impl VirtualMachine {
         self.data.insert(self.data_pointer, initial - 1);
     }
 
-    fn output(&self) {
-        print!("{}", char::from_u32(self.get_data()).unwrap());
+    fn output(&mut self) {
+        self.terminal.write_all(&[self.get_data() as u8]).unwrap();
+    }
+
+    fn input(&mut self) {
+        let input = self.terminal.read_char().unwrap();
+        self.terminal
+            .write_all(input.to_string().as_bytes())
+            .unwrap();
+        let input = ascii_converter::string_to_decimals(&input.to_string()).unwrap()[0] as u32;
+        self.data.insert(self.data_pointer, input);
     }
 
     fn jump_forwards(&mut self) {

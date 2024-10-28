@@ -1,4 +1,5 @@
 #[derive(Debug)]
+#[non_exhaustive]
 pub enum Error {
     InvalidInstructionChar(char),
     NoMatchingForwardsJump(u32),
